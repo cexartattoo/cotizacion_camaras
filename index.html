@@ -435,9 +435,13 @@
                             <span>Instalación Exterior (x1):</span>
                             <span id="install-exterior-economico">$80.000</span>
                         </div>
+                        <div class="total-row">
+                            <span>Costos Varios (regletas, cables, etc.):</span>
+                            <span id="misc-costs-economico">$100.000</span>
+                        </div>
                         <div class="total-row final">
                             <span>TOTAL:</span>
-                            <span id="total-economico">$685.890</span>
+                            <span id="total-economico">$785.890</span>
                         </div>
                     </div>
 
@@ -533,9 +537,13 @@
                             <span>Instalación Exterior (x1):</span>
                             <span id="install-exterior-estandar">$80.000</span>
                         </div>
+                        <div class="total-row">
+                            <span>Costos Varios (regletas, cables, etc.):</span>
+                            <span id="misc-costs-estandar">$100.000</span>
+                        </div>
                         <div class="total-row final">
                             <span>TOTAL:</span>
-                            <span id="total-estandar">$753.710</span>
+                            <span id="total-estandar">$853.710</span>
                         </div>
                     </div>
 
@@ -631,9 +639,13 @@
                             <span>Instalación Exterior (x1):</span>
                             <span id="install-exterior-premium">$100.000</span>
                         </div>
+                        <div class="total-row">
+                            <span>Costos Varios (regletas, cables, etc.):</span>
+                            <span id="misc-costs-premium">$100.000</span>
+                        </div>
                         <div class="total-row final">
                             <span>TOTAL:</span>
-                            <span id="total-premium">$1,316.900</span>
+                            <span id="total-premium">$1,416.900</span>
                         </div>
                     </div>
 
@@ -666,6 +678,7 @@
         const INSTALL_INTERIOR = 60000; // Por cámara interior
         const INSTALL_EXTERIOR_BASIC = 80000; // Para cámara exterior básica
         const INSTALL_EXTERIOR_PTZ = 100000; // Para cámara exterior PTZ
+        const MISC_COSTS = 100000; // Costos varios (regletas, cables, etc.)
 
         // Datos de los combos
         const combos = {
@@ -708,13 +721,14 @@
                 const installInterior = INSTALL_INTERIOR * combo.cameras.interior.quantity;
                 const installExterior = combo.installExterior * combo.cameras.exterior.quantity;
 
-                const total = interiorTotal + exteriorTotal + totalMemoryCost + installInterior + installExterior;
+                const total = interiorTotal + exteriorTotal + totalMemoryCost + installInterior + installExterior + MISC_COSTS;
 
                 // Actualizar elementos en el DOM
-                document.getElementById(`memory-cost-${comboKey}`).textContent = `${totalMemoryCost.toLocaleString()}`;
-                document.getElementById(`install-interior-${comboKey}`).textContent = `${installInterior.toLocaleString()}`;
-                document.getElementById(`install-exterior-${comboKey}`).textContent = `${installExterior.toLocaleString()}`;
-                document.getElementById(`total-${comboKey}`).textContent = `${total.toLocaleString()}`;
+                document.getElementById(`memory-cost-${comboKey}`).textContent = `$${totalMemoryCost.toLocaleString()}`;
+                document.getElementById(`install-interior-${comboKey}`).textContent = `$${installInterior.toLocaleString()}`;
+                document.getElementById(`install-exterior-${comboKey}`).textContent = `$${installExterior.toLocaleString()}`;
+                document.getElementById(`misc-costs-${comboKey}`).textContent = `$${MISC_COSTS.toLocaleString()}`;
+                document.getElementById(`total-${comboKey}`).textContent = `$${total.toLocaleString()}`;
             });
         }
 
@@ -755,30 +769,33 @@
             const exteriorTotal = combo.cameras.exterior.price * combo.cameras.exterior.quantity;
             const installInterior = INSTALL_INTERIOR * combo.cameras.interior.quantity;
             const installExterior = combo.installExterior * combo.cameras.exterior.quantity;
-            const total = interiorTotal + exteriorTotal + totalMemoryCost + installInterior + installExterior;
+            const total = interiorTotal + exteriorTotal + totalMemoryCost + installInterior + installExterior + MISC_COSTS;
 
             let message = `🔒 *COTIZACIÓN CÁMARAS DE SEGURIDAD EZVIZ*\n\n`;
             message += `📋 *${combo.name}*\n\n`;
             message += `🏠 *Cámaras de Interior (x${combo.cameras.interior.quantity}):*\n`;
             message += `• ${combo.cameras.interior.name}\n`;
-            message += `• Precio: ${combo.cameras.interior.price.toLocaleString()} c/u\n`;
-            message += `• Subtotal: ${interiorTotal.toLocaleString()}\n\n`;
+            message += `• Precio: $${combo.cameras.interior.price.toLocaleString()} c/u\n`;
+            message += `• Subtotal: $${interiorTotal.toLocaleString()}\n\n`;
 
             message += `🌐 *Cámara de Exterior (x${combo.cameras.exterior.quantity}):*\n`;
             message += `• ${combo.cameras.exterior.name}\n`;
-            message += `• Precio: ${combo.cameras.exterior.price.toLocaleString()}\n`;
-            message += `• Subtotal: ${exteriorTotal.toLocaleString()}\n\n`;
+            message += `• Precio: $${combo.cameras.exterior.price.toLocaleString()}\n`;
+            message += `• Subtotal: $${exteriorTotal.toLocaleString()}\n\n`;
 
             message += `💾 *Memorias MicroSD (x3):*\n`;
             message += `• Tamaño: ${memorySize}GB c/u\n`;
-            message += `• Precio: ${memoryPrice.toLocaleString()} c/u\n`;
-            message += `• Subtotal: ${totalMemoryCost.toLocaleString()}\n\n`;
+            message += `• Precio: $${memoryPrice.toLocaleString()} c/u\n`;
+            message += `• Subtotal: $${totalMemoryCost.toLocaleString()}\n\n`;
 
             message += `🔧 *Instalación:*\n`;
-            message += `• Interior (x${combo.cameras.interior.quantity}): ${installInterior.toLocaleString()}\n`;
-            message += `• Exterior (x${combo.cameras.exterior.quantity}): ${installExterior.toLocaleString()}\n\n`;
+            message += `• Interior (x${combo.cameras.interior.quantity}): $${installInterior.toLocaleString()}\n`;
+            message += `• Exterior (x${combo.cameras.exterior.quantity}): $${installExterior.toLocaleString()}\n\n`;
 
-            message += `💰 *TOTAL: ${total.toLocaleString()}*\n\n`;
+            message += `⚡ *Costos Varios:*\n`;
+            message += `• Regletas, cables, etc.: $${MISC_COSTS.toLocaleString()}\n\n`;
+
+            message += `💰 *TOTAL: $${total.toLocaleString()}*\n\n`;
             message += `🛡️ *Garantía:* 1 año por tienda oficial EZVIZ\n\n`;
 
             const encodedMessage = encodeURIComponent(message);
