@@ -298,25 +298,95 @@
         }
 
         .advantages {
-            background: #d1ecf1;
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #17a2b8;
-            margin: 20px 0;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 28px 32px;
+            border-radius: 16px;
+            border: 1px solid #e0f2fe;
+            border-left: 4px solid #0ea5e9;
+            margin: 32px 0;
+            box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.1), 0 2px 4px -1px rgba(14, 165, 233, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advantages::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.3), transparent);
         }
 
         .advantages h4 {
-            color: #138496;
-            margin-bottom: 10px;
+            color: #0c4a6e;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 1.25rem;
+            letter-spacing: -0.025em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .advantages h4::before {
+            content: '✨';
+            font-size: 1.125rem;
+            opacity: 0.8;
         }
 
         .advantages ul {
-            margin-left: 20px;
-            color: #495057;
+            margin-left: 0;
+            color: #334155;
+            list-style: none;
+            padding: 0;
         }
 
         .advantages li {
-            margin-bottom: 5px;
+            margin-bottom: 12px;
+            padding-left: 28px;
+            position: relative;
+            line-height: 1.6;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .advantages li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: #0ea5e9;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .advantages li:hover {
+            color: #0c4a6e;
+            transform: translateX(4px);
+        }
+
+        .advantages li:hover::before {
+            color: #0284c7;
+            transform: scale(1.2);
+        }
+
+        .advantages li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Variante alternativa con iconos más sofisticados */
+        .advantages.premium li::before {
+            content: '◆';
+            color: #0ea5e9;
+            font-size: 0.75rem;
+            top: 6px;
+        }
+
+        .advantages.premium li:hover::before {
+            content: '♦';
+            color: #0284c7;
         }
 
         .whatsapp-btn {
