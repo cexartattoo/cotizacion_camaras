@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotización Cámaras de Seguridad EZVIZ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #2a5298;
+        }
+
+        .contact-info h2 {
+            color: #2a5298;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin: 5px 0;
+        }
+
+        .combos-container {
+            padding: 40px 20px;
+            background: #f8f9fa;
+        }
+
+        .combo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .combo-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .combo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .combo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .combo-title {
+            font-size: 1.8rem;
+            color: #2a5298;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .cameras-section {
+            margin-bottom: 25px;
+        }
+
+        .camera-type {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 8px;
+            border-left: 4px solid #2a5298;
+        }
+
+        .camera-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        .camera-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+            border: 2px solid #2a5298;
+        }
+
+        .camera-info {
+            flex: 1;
+        }
+
+        .camera-name {
+            font-weight: bold;
+            color: #2a5298;
+            margin-bottom: 5px;
+        }
+
+        .camera-specs {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .camera-price {
+            font-weight: bold;
+            color: #28a745;
+            font-size: 1.1rem;
+        }
+
+        .memory-selector {
+            margin: 20px 0;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            border: 2px solid #2196f3;
+        }
+
+        .memory-selector h4 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .memory-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .memory-option {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #2196f3;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .memory-option:hover {
+            background: #2196f3;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .memory-option.selected {
+            background: #2196f3;
+            color: white;
+            box-shadow: 0 4px 12px rgba(33,150,243,0.3);
+        }
+
+        .total-calculation {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ffc107;
+            margin: 20px 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+
+        .total-row.final {
+            border-top: 2px solid #ffc107;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #e65100;
+        }
+
+        .advantages {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 20px 0;
+        }
+
+        .advantages h4 {
+            color: #138496;
+            margin-bottom: 10px;
+        }
+
+        .advantages ul {
+            margin-left: 20px;
+            color: #495057;
+        }
+
+        .advantages li {
+            margin-bottom: 5px;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+            min-width: 250px;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.3);
+        }
+
+        .whatsapp-btn:hover {
+            background: #128c7e;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(37,211,102,0.4);
+        }
+
+        .warranty-info {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #28a745;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .warranty-info h4 {
+            color: #155724;
+            margin-bottom: 5px;
+        }
+
+        .warranty-info p {
+            color: #155724;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .combo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .camera-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .camera-image {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .memory-options {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 Cámaras de Seguridad EZVIZ</h1>
+            <p>Soluciones profesionales de videovigilancia</p>
+        </div>
+
+        <div class="contact-info">
+            <h2>👨‍💼 Información de Contacto</h2>
+            <p><strong>Ing. César Javier Ramírez H.</strong></p>
+            <p>📱 Celular: 3219121216</p>
+            <p>✅ Instalación profesional incluida</p>
+        </div>
+
+        <div class="combos-container">
+            <h2 style="text-align: center; color: #2a5298; font-size: 2.5rem; margin-bottom: 10px;">
+                🎯 Combos de Seguridad
+            </h2>
+            <p style="text-align: center; color: #6c757d; font-size: 1.2rem; margin-bottom: 30px;">
+                Selecciona el combo que mejor se adapte a tus necesidades
+            </p>
+
+            <div class="combo-grid">
+                <!-- Combo Económico -->
+                <div class="combo-card">
+                    <h3 class="combo-title">💰 Combo Económico</h3>
+
+                    <div class="cameras-section">
+                        <div class="camera-type">🏠 Cámaras de Interior (x2)</div>
+                        <div class="camera-item">
+                            <img src="https://http2.mlstatic.com/D_NQ_NP_692188-MLA84548683970_052025-O.webp"
+                                 alt="Cámara H1C" class="camera-image">
+                            <div class="camera-info">
+                                <div class="camera-name">EZVIZ H1C 2MP</div>
+                                <div class="camera-specs">• 1080p Full HD • WiFi • Audio bidireccional • Visión nocturna</div>
+                                <div class="camera-price">$115.990 c/u</div>
+                                <a href="https://www.mercadolibre.com.co/camara-seguridad-wifi-inalambrica-ezviz-h1c-ip-2mp-1080p-color-blanco/p/MCO26988384"
+                                   target="_blank" style="color: #2a5298; text-decoration: none; font-size: 0.9rem;">
+                                   🔗 Ver producto
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="camera-type">🌐 Cámara de Exterior (x1)</div>
+                        <div class="camera-item">
+                            <img src="https://http2.mlstatic.com/D_NQ_NP_656068-MLA79196105794_092024-O.webp"
+                                 alt="Cámara Bullet" class="camera-image">
+                            <div class="camera-info">
+                                <div class="camera-name">EZVIZ Bullet 2MP</div>
+                                <div class="camera-specs">• 1080p Full HD • WiFi/LAN • IP67 • Audio bidireccional</div>
+                                <div class="camera-price">$176.210</div>
+                                <a href="https://www.mercadolibre.com.co/camara-seguridad-ezviz-ip-wifi-exterior-bullet-2mp-1080p/p/MCO41046481"
+                                   target="_blank" style="color: #2a5298; text-decoration: none; font-size: 0.9rem;">
+                                   🔗 Ver producto
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="memory-selector">
+                        <h4>💾 Selecciona el tamaño de memoria para cada cámara:</h4>
+                        <div class="memory-options">
+                            <div class="memory-option" data-combo="economico" data-size="32" data-price="22450">
+                                32GB<br>$22.450
+                            </div>
+                            <div class="memory-option selected" data-combo="economico" data-size="64" data-price="25900">
+                                64GB<br>$25.900
+                            </div>
+                            <div class="memory-option" data-combo="economico" data-size="128" data-price="69000">
+                                128GB<br>$69.000
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="total-calculation" id="calc-economico">
+                        <div class="total-row">
+                            <span>Cámaras Interior (x2):</span>
+                            <span>$231.980</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Cámara Exterior (x1):</span>
+                            <span>$176.210</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Memorias (x3):</span>
+                            <span id="memory-cost-economico">$77.700</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Instalación Interior (x2):</span>
+                            <span id="install-interior-economico">$120.000</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Instalación Exterior (x1):</span>
+                            <span id="install-exterior-economico">$80.000</span>
+                        </div>
+                        <div class="total-row final">
+                            <span>TOTAL:</span>
+                            <span id="total-economico">$685.890</span>
+                        </div>
+                    </div>
+
+                    <div class="advantages">
+                        <h4>✅ Ventajas del Combo Económico:</h4>
+                        <ul>
+                            <li>Ideal para presupuestos ajustados</li>
+                            <li>Cobertura básica completa</li>
+                            <li>Fácil instalación y configuración</li>
+                            <li>Calidad Full HD en todas las cámaras</li>
+                        </ul>
+                    </div>
+
+                    <div class="warranty-info">
+                        <h4>🛡️ Garantía</h4>
+                        <p>1 año de garantía por tienda oficial EZVIZ</p>
+                    </div>
+
+                    <button class="whatsapp-btn" onclick="sendWhatsApp('economico')">
+                        📱 Solicitar Combo Económico por WhatsApp
+                    </button>
+                </div>
+
+                <!-- Combo Estándar -->
+                <div class="combo-card">
+                    <h3 class="combo-title">⭐ Combo Estándar</h3>
+
+                    <div class="cameras-section">
+                        <div class="camera-type">🏠 Cámaras de Interior (x2)</div>
+                        <div class="camera-item">
+                            <img src="https://http2.mlstatic.com/D_NQ_NP_812696-MCO81237484433_122024-O.webp"
+                                 alt="Cámara Robótica" class="camera-image">
+                            <div class="camera-info">
+                                <div class="camera-name">EZVIZ Robótica 3MP</div>
+                                <div class="camera-specs">• 2K • WiFi • Pan/Tilt 360° • Audio bidireccional • Visión nocturna</div>
+                                <div class="camera-price">$149.900 c/u</div>
+                                <a href="https://articulo.mercadolibre.com.co/MCO-1516212293-camara-wifi-robotica-3-mp-ezviz-_JM"
+                                   target="_blank" style="color: #2a5298; text-decoration: none; font-size: 0.9rem;">
+                                   🔗 Ver producto
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="camera-type">🌐 Cámara de Exterior (x1)</div>
+                        <div class="camera-item">
+                            <img src="https://http2.mlstatic.com/D_NQ_NP_656068-MLA79196105794_092024-O.webp"
+                                 alt="Cámara Bullet" class="camera-image">
+                            <div class="camera-info">
+                                <div class="camera-name">EZVIZ Bullet 2MP</div>
+                                <div class="camera-specs">• 1080p Full HD • WiFi/LAN • IP67 • Audio bidireccional</div>
+                                <div class="camera-price">$176.210</div>
+                                <a href="https://www.mercadolibre.com.co/camara-seguridad-ezviz-ip-wifi-exterior-bullet-2mp-1080p/p/MCO41046481"
+                                   target="_blank" style="color: #2a5298; text-decoration: none; font-size: 0.9rem;">
+                                   🔗 Ver producto
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="memory-selector">
+                        <h4>💾 Selecciona el tamaño de memoria para cada cámara:</h4>
+                        <div class="memory-options">
+                            <div class="memory-option" data-combo="estandar" data-size="32" data-price="22450">
+                                32GB<br>$22.450
+                            </div>
+                            <div class="memory-option selected" data-combo="estandar" data-size="64" data-price="25900">
+                                64GB<br>$25.900
+                            </div>
+                            <div class="memory-option" data-combo="estandar" data-size="128" data-price="69000">
+                                128GB<br>$69.000
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="total-calculation" id="calc-estandar">
+                        <div class="total-row">
+                            <span>Cámaras Interior (x2):</span>
+                            <span>$299.800</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Cámara Exterior (x1):</span>
+                            <span>$176.210</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Memorias (x3):</span>
+                            <span id="memory-cost-estandar">$77.700</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Instalación Interior (x2):</span>
+                            <span id="install-interior-estandar">$120.000</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Instalación Exterior (x1):</span>
+                            <span id="install-exterior-estandar">$80.000</span>
+                        </div>
+                        <div class="total-row final">
+                            <span>TOTAL:</span>
+                            <span id="total-estandar">$753.710</span>
+                        </div>
+                    </div>
+
+                    <div class="advantages">
+                        <h4>✅ Ventajas del Combo Estándar:</h4>
+                        <ul>
+                            <li>Mejor resolución 2K en cámaras interiores</li>
+                            <li>Función Pan/Tilt 360° para seguimiento</li>
+                            <li>Ideal para hogares medianos</li>
+                            <li>Excelente relación precio-calidad</li>
+                        </ul>
+                    </div>
+
+                    <div class="warranty-info">
+                        <h4>🛡️ Garantía</h4>
+                        <p>1 año de garantía por tienda oficial EZVIZ</p>
+                    </div>
+
+                    <button class="whatsapp-btn" onclick="sendWhatsApp('estandar')">
+                        📱 Solicitar Combo Estándar por WhatsApp
+                    </button>
+                </div>
+
+                <!-- Combo Premium -->
+                <div class="combo-card">
+                    <h3 class="combo-title">🌟 Combo Premium</h3>
+
+                    <div class="cameras-section">
+                        <div class="camera-type">🏠 Cámaras de Interior (x2)</div>
+                        <div class="camera-item">
+                            <img src="https://http2.mlstatic.com/D_NQ_NP_812696-MCO81237484433_122024-O.webp"
+                                 alt="Cámara Robótica" class="camera-image">
+                            <div class="camera-info">
+                                <div class="camera-name">EZVIZ Robótica 3MP</div>
+                                <div class="camera-specs">• 2K • WiFi • Pan/Tilt 360° • Audio bidireccional • Visión nocturna</div>
+                                <div class="camera-price">$149.900 c/u</div>
+                                <a href="https://articulo.mercadolibre.com.co/MCO-1516212293-camara-wifi-robotica-3-mp-ezviz-_JM"
+                                   target="_blank" style="color: #2a5298; text-decoration: none; font-size: 0.9rem;">
+                                   🔗 Ver producto
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="camera-type">🌐 Cámara de Exterior (x1)</div>
+                        <div class="camera-item">
+                            <img src="https://http2.mlstatic.com/D_NQ_NP_866036-MLA82441149339_022025-O.webp"
+                                 alt="Cámara PTZ" class="camera-image">
+                            <div class="camera-info">
+                                <div class="camera-name">EZVIZ C8PF PTZ 2MP</div>
+                                <div class="camera-specs">• 2K • WiFi • Pan/Tilt 360° • Zoom 8x • IP67 • 30m visión nocturna</div>
+                                <div class="camera-price">$690.100</div>
+                                <a href="https://www.mercadolibre.com.co/camara-wifi-c8pf-ezviz-inteligente-2mp-exterior-domo-full-hd-color-blanco/p/MCO19857010"
+                                   target="_blank" style="color: #2a5298; text-decoration: none; font-size: 0.9rem;">
+                                   🔗 Ver producto
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="memory-selector">
+                        <h4>💾 Selecciona el tamaño de memoria para cada cámara:</h4>
+                        <div class="memory-options">
+                            <div class="memory-option" data-combo="premium" data-size="32" data-price="22450">
+                                32GB<br>$22.450
+                            </div>
+                            <div class="memory-option" data-combo="premium" data-size="64" data-price="25900">
+                                64GB<br>$25.900
+                            </div>
+                            <div class="memory-option selected" data-combo="premium" data-size="128" data-price="69000">
+                                128GB<br>$69.000
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="total-calculation" id="calc-premium">
+                        <div class="total-row">
+                            <span>Cámaras Interior (x2):</span>
+                            <span>$299.800</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Cámara Exterior (x1):</span>
+                            <span>$690.100</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Memorias (x3):</span>
+                            <span id="memory-cost-premium">$207.000</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Instalación Interior (x2):</span>
+                            <span id="install-interior-premium">$120.000</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Instalación Exterior (x1):</span>
+                            <span id="install-exterior-premium">$100.000</span>
+                        </div>
+                        <div class="total-row final">
+                            <span>TOTAL:</span>
+                            <span id="total-premium">$1,316.900</span>
+                        </div>
+                    </div>
+
+                    <div class="advantages">
+                        <h4>✅ Ventajas del Combo Premium:</h4>
+                        <ul>
+                            <li>Máxima calidad 2K en todas las cámaras</li>
+                            <li>PTZ con zoom 8x para exterior</li>
+                            <li>Alcance nocturno de 30 metros</li>
+                            <li>Resistencia IP67 para condiciones extremas</li>
+                            <li>Ideal para propiedades grandes</li>
+                        </ul>
+                    </div>
+
+                    <div class="warranty-info">
+                        <h4>🛡️ Garantía</h4>
+                        <p>1 año de garantía por tienda oficial EZVIZ</p>
+                    </div>
+
+                    <button class="whatsapp-btn" onclick="sendWhatsApp('premium')">
+                        📱 Solicitar Combo Premium por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Precios de instalación
+        const INSTALL_INTERIOR = 60000; // Por cámara interior
+        const INSTALL_EXTERIOR_BASIC = 80000; // Para cámara exterior básica
+        const INSTALL_EXTERIOR_PTZ = 100000; // Para cámara exterior PTZ
+
+        // Datos de los combos
+        const combos = {
+            economico: {
+                name: "Combo Económico",
+                cameras: {
+                    interior: { price: 115990, quantity: 2, name: "EZVIZ H1C 2MP" },
+                    exterior: { price: 176210, quantity: 1, name: "EZVIZ Bullet 2MP" }
+                },
+                installExterior: INSTALL_EXTERIOR_BASIC
+            },
+            estandar: {
+                name: "Combo Estándar",
+                cameras: {
+                    interior: { price: 149900, quantity: 2, name: "EZVIZ Robótica 3MP" },
+                    exterior: { price: 176210, quantity: 1, name: "EZVIZ Bullet 2MP" }
+                },
+                installExterior: INSTALL_EXTERIOR_BASIC
+            },
+            premium: {
+                name: "Combo Premium",
+                cameras: {
+                    interior: { price: 149900, quantity: 2, name: "EZVIZ Robótica 3MP" },
+                    exterior: { price: 690100, quantity: 1, name: "EZVIZ C8PF PTZ 2MP" }
+                },
+                installExterior: INSTALL_EXTERIOR_PTZ
+            }
+        };
+
+        // Función para actualizar precios
+        function updatePrices() {
+            Object.keys(combos).forEach(comboKey => {
+                const combo = combos[comboKey];
+                const selectedMemory = document.querySelector(`.memory-option[data-combo="${comboKey}"].selected`);
+                const memoryPrice = parseInt(selectedMemory.dataset.price);
+                const totalMemoryCost = memoryPrice * 3; // 3 cámaras
+
+                const interiorTotal = combo.cameras.interior.price * combo.cameras.interior.quantity;
+                const exteriorTotal = combo.cameras.exterior.price * combo.cameras.exterior.quantity;
+                const installInterior = INSTALL_INTERIOR * combo.cameras.interior.quantity;
+                const installExterior = combo.installExterior * combo.cameras.exterior.quantity;
+
+                const total = interiorTotal + exteriorTotal + totalMemoryCost + installInterior + installExterior;
+
+                // Actualizar elementos en el DOM
+                document.getElementById(`memory-cost-${comboKey}`).textContent = `${totalMemoryCost.toLocaleString()}`;
+                document.getElementById(`install-interior-${comboKey}`).textContent = `${installInterior.toLocaleString()}`;
+                document.getElementById(`install-exterior-${comboKey}`).textContent = `${installExterior.toLocaleString()}`;
+                document.getElementById(`total-${comboKey}`).textContent = `${total.toLocaleString()}`;
+            });
+        }
+
+        // Event listeners para selección de memoria
+        document.addEventListener('DOMContentLoaded', function() {
+            const memoryOptions = document.querySelectorAll('.memory-option');
+
+            memoryOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const combo = this.dataset.combo;
+
+                    // Remover selección anterior
+                    document.querySelectorAll(`.memory-option[data-combo="${combo}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+
+                    // Agregar selección actual
+                    this.classList.add('selected');
+
+                    // Actualizar precios
+                    updatePrices();
+                });
+            });
+
+            // Actualizar precios iniciales
+            updatePrices();
+        });
+
+        // Función para enviar mensaje por WhatsApp
+        function sendWhatsApp(comboType) {
+            const combo = combos[comboType];
+            const selectedMemory = document.querySelector(`.memory-option[data-combo="${comboType}"].selected`);
+            const memorySize = selectedMemory.dataset.size;
+            const memoryPrice = parseInt(selectedMemory.dataset.price);
+            const totalMemoryCost = memoryPrice * 3;
+
+            const interiorTotal = combo.cameras.interior.price * combo.cameras.interior.quantity;
+            const exteriorTotal = combo.cameras.exterior.price * combo.cameras.exterior.quantity;
+            const installInterior = INSTALL_INTERIOR * combo.cameras.interior.quantity;
+            const installExterior = combo.installExterior * combo.cameras.exterior.quantity;
+            const total = interiorTotal + exteriorTotal + totalMemoryCost + installInterior + installExterior;
+
+            let message = `🔒 *COTIZACIÓN CÁMARAS DE SEGURIDAD EZVIZ*\n\n`;
+            message += `📋 *${combo.name}*\n\n`;
+            message += `🏠 *Cámaras de Interior (x${combo.cameras.interior.quantity}):*\n`;
+            message += `• ${combo.cameras.interior.name}\n`;
+            message += `• Precio: ${combo.cameras.interior.price.toLocaleString()} c/u\n`;
+            message += `• Subtotal: ${interiorTotal.toLocaleString()}\n\n`;
+
+            message += `🌐 *Cámara de Exterior (x${combo.cameras.exterior.quantity}):*\n`;
+            message += `• ${combo.cameras.exterior.name}\n`;
+            message += `• Precio: ${combo.cameras.exterior.price.toLocaleString()}\n`;
+            message += `• Subtotal: ${exteriorTotal.toLocaleString()}\n\n`;
+
+            message += `💾 *Memorias MicroSD (x3):*\n`;
+            message += `• Tamaño: ${memorySize}GB c/u\n`;
+            message += `• Precio: ${memoryPrice.toLocaleString()} c/u\n`;
+            message += `• Subtotal: ${totalMemoryCost.toLocaleString()}\n\n`;
+
+            message += `🔧 *Instalación:*\n`;
+            message += `• Interior (x${combo.cameras.interior.quantity}): ${installInterior.toLocaleString()}\n`;
+            message += `• Exterior (x${combo.cameras.exterior.quantity}): ${installExterior.toLocaleString()}\n\n`;
+
+            message += `💰 *TOTAL: ${total.toLocaleString()}*\n\n`;
+            message += `🛡️ *Garantía:* 1 año por tienda oficial EZVIZ\n\n`;
+            message += `👨‍💼 *Contacto:*\n`;
+            message += `Ing. César Javier Ramírez H.\n`;
+            message += `📱 3219121216`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/573219121216?text=${encodedMessage}`;
+
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Animaciones adicionales
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.combo-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
