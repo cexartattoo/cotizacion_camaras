@@ -1,0 +1,23 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "index.html",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "index_html",
+      "community": 0,
+      "norm_label": "index.html"
+    }
+  ],
+  "links": [],
+  "hyperedges": [],
+  "built_at_commit": "11268acb58665a9fe7c2070ac6d388cd54c3b095"
+}
